@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+    web-app:
+        image: node:latest
+        working_dir: /usr/src/app
+        build: .
+        volumes: 
+            - .:/usr/src/app
+        ports:
+            - 3000:7777
+        command: npm start
+        links: 
+            - db
+        depends_on:
+            - db
+    db:       
+        image: 'bitnami/mongodb:latest'
+        ports:
+            - "27017:27017"
+        env_file:
+            - variables.env
+        volumes:
+            - ./data:/data/db
